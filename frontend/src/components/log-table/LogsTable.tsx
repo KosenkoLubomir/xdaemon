@@ -23,6 +23,13 @@ const LogsTable = () => {
     const [logToDelete, setLogToDelete] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [actionLoading, setActionLoading] = useState<Record<string, 'save' | 'delete' | null>>({});
+    const [newLog, setNewLog] = useState<Partial<Log> | null>(null);
+
+    const sortedLogs = [...logs].sort(
+        (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    );
+    const totalPages = Math.ceil(sortedLogs.length / logsPerPage);
+    const currentLogs = sortedLogs.slice((currentPage - 1) * logsPerPage, currentPage * logsPerPage);
 
     const isMobile = useWindowWidth() < 768;
 
@@ -41,9 +48,6 @@ const LogsTable = () => {
         };
         fetchLogs();
     }, []);
-
-    const totalPages = Math.ceil(logs.length / logsPerPage);
-    const currentLogs = logs.slice((currentPage - 1) * logsPerPage, currentPage * logsPerPage);
 
     const handleEditChange = (id: string, field: keyof Log, value: string) => {
         setEditing((prev) => {
@@ -87,6 +91,39 @@ const LogsTable = () => {
         setActionLoading((prev) => ({ ...prev, [id]: null }));
     };
 
+    const handleAdd = async () => {
+        setActionLoading((prev) => ({ ...prev, new: 'save' }));
+
+        const newLog = {
+            owner: '',
+            text: '',
+        };
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/logs`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newLog),
+            });
+
+            if (res.ok) {
+                const created = await res.json();
+                setLogs((prev) => [created, ...prev]);
+                setEditing((prev) => ({
+                    ...prev,
+                    [created.id]: { owner: created.owner, text: created.text },
+                }));
+                toast.success('New log created');
+            } else {
+                toast.error('Failed to create log');
+            }
+        } catch (err) {
+            toast.error('Network error while adding log');
+        }
+
+        setActionLoading((prev) => ({ ...prev, new: null }));
+    };
+
     const requestDelete = (id: string) => {
         setLogToDelete(id);
         setModalOpen(true);
@@ -119,6 +156,14 @@ const LogsTable = () => {
                     <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
                 </div>
             ) : (
+                <>
+                    <button
+                        type="button"
+                        onClick={handleAdd}
+                        className={
+                        `mb-4 block ml-auto px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none}`
+                    }>+ Add New</button>
+
                 <div className={`${isMobile ? "" : "overflow-hidden rounded-md border border-gray-200 bg-white"}`}>
                     {isMobile ?  (
                         <>
@@ -135,8 +180,6 @@ const LogsTable = () => {
                             ))}
                         </>
                     ) : (
-
-
                     <table className="min-w-full text-sm">
                         <thead>
                             <tr className="text-left text-gray-700 bg-gray-200 text-sm">
@@ -164,6 +207,7 @@ const LogsTable = () => {
 
                     )}
                 </div>
+                </>
             )}
 
             {totalPages > 1 && (
