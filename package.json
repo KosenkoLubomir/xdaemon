@@ -1,5 +1,5 @@
 {
-  "name": "log-system",
+  "name": "xdaemon",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend start\""
