@@ -65,7 +65,7 @@ const LogsTable = () => {
         await new Promise((r) => setTimeout(r, 1000)); // Simulate delay
 
         const updated = editing[id];
-        const res = await fetch(`/logs/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/logs/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updated),
@@ -99,7 +99,7 @@ const LogsTable = () => {
 
         await new Promise((r) => setTimeout(r, 1000)); // Simulate delay
 
-        const res = await fetch(`/logs/${logToDelete}`, { method: 'DELETE' });
+        const res = await fetch(`${API_BASE_URL}/logs/${logToDelete}`, { method: 'DELETE' });
 
         if (res.ok) {
             setLogs((prev) => prev.filter((log) => log.id !== logToDelete));
