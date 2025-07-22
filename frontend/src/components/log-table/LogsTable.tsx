@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import LogsTableRow from './LogsTableRow';
 import useWindowWidth from '../../hooks/useWindowWidth';
 import MobileLogTableItem from "./MobileLogTableItem";
-import { API_BASE_URL } from '../../../config';
+import { API_BASE_URL } from '../../config';
 
 type Log = {
     id: string;

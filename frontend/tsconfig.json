@@ -11,7 +11,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
-    "types": ["cypress"],
+    "types": ["cypress", "node"],
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
