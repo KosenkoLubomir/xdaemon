@@ -1,0 +1,7 @@
+{
+  "name": "log-system",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm --prefix backend start\" \"npm --prefix frontend start\""
+  }
+}
