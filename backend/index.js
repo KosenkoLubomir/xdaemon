@@ -6,22 +6,29 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
-let logs = [
-  {
-    id: '1',
-    owner: 'Alice',
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    text: 'Initial log entry',
-  },
-];
+const generateMockLogs = (count) => {
+  const logs = [];
+  for (let i = 1; i <= count; i++) {
+    const now = new Date();
+    logs.push({
+      id: i.toString(),
+      owner: `User ${i}`,
+      createdAt: new Date(now.getTime() - i * 1000000).toISOString(),
+      updatedAt: new Date(now.getTime() - i * 500000).toISOString(),
+      text: `This is a mock log entry number ${i}`,
+    });
+  }
+  return logs;
+};
+
+let logs = generateMockLogs(35);
 
 app.get('/logs', (req, res) => res.json(logs));
 
 app.post('/logs', (req, res) => {
   const { owner, text } = req.body;
   const newLog = {
-    id: Date.now().toString(),
+    id: (Date.now() + Math.random()).toString(36), // Unique ID
     owner,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),

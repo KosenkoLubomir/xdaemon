@@ -1,19 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LogsTable from './components/log-table/LogsTable';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-
-      </header>
-    </div>
-  );
+    return (
+        <div className="px-4 py-6 max-w-6xl mx-auto">
+            <h1 className="text-2xl font-bold mb-4 text-center">Logs Table</h1>
+            <LogsTable />
+        </div>
+    );
 }
 
 export default App;
