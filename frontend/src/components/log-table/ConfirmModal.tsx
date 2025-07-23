@@ -20,14 +20,14 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose, onConfirm,
                 <p className="text-gray-800 mb-6">{message}</p>
                 <div className="flex justify-end space-x-2">
                     <button
-                        className="px-4 py-1 rounded bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded text-sm font-semibold"
+                        className="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded text-sm font-semibold"
                         onClick={onClose}
                         aria-label="Close"
                     >
                         Cancel
                     </button>
                     <button
-                        className="px-4 py-1 rounded bg-red-500 text-white hover:bg-red-600 px-3 py-2 rounded text-sm font-semibold"
+                        className="bg-red-500 text-white hover:bg-red-600 px-3 py-2 rounded text-sm font-semibold"
                         onClick={() => {
                             onConfirm();
                             onClose();

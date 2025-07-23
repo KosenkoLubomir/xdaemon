@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
       <main className="min-h-screen bg-gray-50">

@@ -23,7 +23,6 @@ const LogsTable = () => {
     const [logToDelete, setLogToDelete] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [actionLoading, setActionLoading] = useState<Record<string, 'save' | 'delete' | null>>({});
-    const [newLog, setNewLog] = useState<Partial<Log> | null>(null);
 
     const sortedLogs = [...logs].sort(
         (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
@@ -33,19 +32,20 @@ const LogsTable = () => {
 
     const isMobile = useWindowWidth() < 768;
 
+    const fetchLogs = async () => {
+        setLoading(true);
+        try {
+            const res = await fetch(`${API_BASE_URL}/logs`);
+            const data = await res.json();
+            setLogs(data);
+        } catch (e) {
+            toast.error('Failed to fetch logs');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchLogs = async () => {
-            setLoading(true);
-            try {
-                const res = await fetch(`${API_BASE_URL}/logs`);
-                const data = await res.json();
-                setLogs(data);
-            } catch (e) {
-                toast.error('Failed to fetch logs');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchLogs();
     }, []);
 
@@ -165,49 +165,48 @@ const LogsTable = () => {
                         `mb-4 block font-semibold ml-auto px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none}`
                     }>+ Add New</button>
 
-                <div className={`${isMobile ? "" : "overflow-hidden rounded-md border border-gray-200 bg-white"}`}>
-                    {isMobile ?  (
-                        <>
-                            {currentLogs.map((log) => (
-                                <MobileLogTableItem
-                                    key={log.id}
-                                    log={log}
-                                    editedLog={editing[log.id]}
-                                    onEditChange={handleEditChange}
-                                    onSave={handleSave}
-                                    onDelete={requestDelete}
-                                    loadingAction={actionLoading[log.id] ?? null}
-                                />
-                            ))}
-                        </>
-                    ) : (
-                    <table className="min-w-full text-sm">
-                        <thead>
-                            <tr className="text-left text-gray-700 bg-gray-200 text-sm">
-                                <th className="p-2">Owner</th>
-                                <th className="p-2">Created At</th>
-                                <th className="p-2">Updated At</th>
-                                <th className="p-2">Log Text</th>
-                                <th className="p-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentLogs.map((log) => (
-                                <LogsTableRow
-                                    key={log.id}
-                                    log={log}
-                                    editedLog={editing[log.id]}
-                                    onEditChange={handleEditChange}
-                                    onSave={handleSave}
-                                    onDelete={requestDelete}
-                                    loadingAction={actionLoading[log.id] ?? null}
-                                />
-                            ))}
-                        </tbody>
-                    </table>
-
-                    )}
-                </div>
+                    <div className={`${isMobile ? "" : "overflow-hidden rounded-md border border-gray-200 bg-white"}`}>
+                        {isMobile ?  (
+                            <>
+                                {currentLogs.map((log) => (
+                                    <MobileLogTableItem
+                                        key={log.id}
+                                        log={log}
+                                        editedLog={editing[log.id]}
+                                        onEditChange={handleEditChange}
+                                        onSave={handleSave}
+                                        onDelete={requestDelete}
+                                        loadingAction={actionLoading[log.id] ?? null}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                        <table className="min-w-full text-sm">
+                            <thead>
+                                <tr className="text-left text-gray-700 bg-gray-200 text-sm">
+                                    <th className="p-2">Owner</th>
+                                    <th className="p-2">Created At</th>
+                                    <th className="p-2">Updated At</th>
+                                    <th className="p-2">Log Text</th>
+                                    <th className="p-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentLogs.map((log) => (
+                                    <LogsTableRow
+                                        key={log.id}
+                                        log={log}
+                                        editedLog={editing[log.id]}
+                                        onEditChange={handleEditChange}
+                                        onSave={handleSave}
+                                        onDelete={requestDelete}
+                                        loadingAction={actionLoading[log.id] ?? null}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                        )}
+                    </div>
                 </>
             )}
 
