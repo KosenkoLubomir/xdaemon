@@ -160,8 +160,9 @@ const LogsTable = () => {
                     <button
                         type="button"
                         onClick={handleAdd}
+                        data-testid="new-log-button"
                         className={
-                        `mb-4 block ml-auto px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none}`
+                        `mb-4 block font-semibold ml-auto px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none}`
                     }>+ Add New</button>
 
                 <div className={`${isMobile ? "" : "overflow-hidden rounded-md border border-gray-200 bg-white"}`}>

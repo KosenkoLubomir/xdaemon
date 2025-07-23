@@ -10,6 +10,7 @@ const LogTextInput: React.FC<LogTextInputProps> = ({ id, value, onChange }) => {
     return (
         <textarea
             id={`${id}-text`}
+            data-testid="log-text"
             className="border p-1.5 w-full text-sm rounded-sm"
             rows={1}
             maxLength={500}

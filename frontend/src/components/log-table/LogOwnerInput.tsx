@@ -10,6 +10,7 @@ const LogOwnerInput: React.FC<LogOwnerInputProps> = ({ id, value, onChange }) =>
     return (
         <input
             id={`${id}-owner`}
+            data-testid="log-owner"
             className="border p-1.5 rounded-sm w-full text-sm"
             name="owner"
             maxLength={50}

@@ -24,6 +24,7 @@ const LogActionButtons: React.FC<LogActionButtonsProps> = ({
                 onClick={onSave}
                 disabled={disabled}
                 aria-label={logId ? `Save log ${logId}` : 'Save log'}
+                data-testid="save-button"
             >
                 {loadingAction === 'save' ? (
                     <span className="w-4 h-4 p-2 border-2 border-gray-300 border-t-white rounded-full animate-spin inline-block" />
@@ -39,6 +40,7 @@ const LogActionButtons: React.FC<LogActionButtonsProps> = ({
                 onClick={onDelete}
                 disabled={disabled}
                 aria-label={logId ? `Delete log ${logId}` : 'Delete log'}
+                data-testid="delete-button"
             >
                 {loadingAction === 'delete' ? (
                     <span className="w-4 h-4 p-2 border-2 border-gray-300 border-t-white rounded-full animate-spin inline-block" />
